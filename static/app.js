@@ -43,6 +43,20 @@ function current() {
   return path[path.length - 1];
 }
 
+function photoSearchTerm(position) {
+  const name = String(position.photo_search || position.name)
+    .replace(/\s*\([^)]*\)/g, '')
+    .replace(/\s+\/\s+.*$/, '')
+    .replace(/\b(submission outcome|finish|hub|general)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return `${name || position.name} BJJ`;
+}
+
+function commonsSearchURL(term) {
+  return `https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(term)}&title=Special:MediaSearch&type=image`;
+}
+
 function setLocation(id, role = current().role, via = null, continuePath = false) {
   if (!byId.has(id)) return;
   path = continuePath
@@ -102,8 +116,8 @@ function renderPosition() {
   const roleText = roleName(position, step.role).toUpperCase();
   const description = position[step.role] || position.bottom;
   els.selected.className = `selected-position family-${colorKey(position.family)} role-${step.role}`;
-  const commonsQuery = encodeURIComponent(`Brazilian Jiu Jitsu ${position.name}`);
-  const photoSearch = `https://commons.wikimedia.org/w/index.php?search=${commonsQuery}&title=Special:MediaSearch&type=image`;
+  const photoTerm = photoSearchTerm(position);
+  const photoSearch = commonsSearchURL(photoTerm);
   let photo = `<div class="position-photo no-photo"><a href="${photoSearch}" target="_blank" rel="noopener noreferrer" aria-label="Open Commons photo search for ${escapeHTML(position.name)}">⌕<span class="photo-caption">OPEN POSITION PHOTO SEARCH ↗</span></a></div>`;
   if (position.ref) {
     const imageURL = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(position.ref.file)}?width=900`;
