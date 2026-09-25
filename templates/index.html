@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f3ed"><meta name="description" content="Explore Brazilian jiu-jitsu positions, guard passes, submissions, and connected technique routes for both players."><title>RollLog · BJJ position map</title><link rel="stylesheet" href="static/style.css"></head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="RollLog home"><span class="brand-mark">R</span><span>rolllog</span></a><span class="nav-note">BRAZILIAN JIU-JITSU POSITION MAP</span><button class="reset-button" id="reset-map">↺ <span>Start a new path</span></button></header>
+<main>
+  <section class="hero"><div><p class="eyebrow"><i></i>THE GAME, CONNECTED</p><h1>Find your next<br><em>position.</em></h1><p class="intro">Start anywhere. Follow a sweep, pass, escape, or attack into the next position and see the branches from there.</p><div class="hero-meta"><span><b id="position-total">—</b> positions</span><span><b id="link-total">—</b> connections</span><span>top + bottom viewpoints</span></div></div><div class="hero-art" aria-hidden="true"><div class="art-ring ring-a"></div><div class="art-ring ring-b"></div><div class="art-node art-node-main">POSITION</div><div class="art-node art-node-left">ENTRY</div><div class="art-node art-node-right">NEXT</div><svg viewBox="0 0 320 200"><path d="M92 107 C120 55 145 56 160 96 S205 150 230 96"/><path d="M92 107 C133 137 191 130 230 96"/></svg></div></section>
+  <section class="path-ribbon"><div class="ribbon-icon">↗</div><p><strong>Jiu-jitsu is a chain of positions.</strong> Pick the player’s viewpoint, then follow the branch that matches the reaction.</p><span class="ribbon-tip">CLICK A DESTINATION TO CONTINUE →</span></section>
+  <section class="map-workspace">
+    <aside class="explorer panel"><div class="explorer-head"><div><p class="eyebrow">POSITION INDEX</p><h2>Where are you?</h2></div><span id="index-count" class="small-count"></span></div><label class="searchbox"><span>⌕</span><input id="position-search" type="search" placeholder="Find a position…" aria-label="Find a position"></label><label class="family-select"><span>POSITION FAMILY</span><select id="family-filter"><option value="">All families</option>{% for family in families %}<option value="{{ family }}">{{ family }}</option>{% endfor %}</select></label><div class="position-list" id="position-list" aria-label="Position index"></div><p class="index-foot">Each position includes notes for both players.</p></aside>
+    <div class="map-column"><section class="path-panel panel"><div class="path-head"><div><p class="eyebrow">YOUR PATH THROUGH THE MAP</p><div class="breadcrumbs" id="breadcrumbs"></div></div><button class="root-button" id="back-button" disabled>← Previous</button></div>
+        <div class="viewbar"><span>VIEWPOINT</span><div class="view-toggle" role="group" aria-label="Choose player perspective"><button data-role="bottom" class="active">Bottom player</button><button data-role="top">Top player</button></div><span class="view-help">Position routes follow top or bottom; submission outcomes show attacker or defender.</span></div>
+        <div class="selected-position" id="selected-position"></div>
+        <div class="branch-heading"><div><p class="eyebrow">NEXT CONNECTIONS</p><h2>Where could this go?</h2></div><span id="branch-count" class="small-count"></span></div>
+        <div class="mindmap" id="mindmap" aria-live="polite"></div>
+        <div class="empty-branches" id="empty-branches" hidden><span>↻</span><p>No next branches for this viewpoint yet.</p><small>Switch player viewpoint or pick a connected position from the index.</small></div>
+        <div class="incoming" id="incoming"></div>
+    </section></div>
+  </section>
+  <footer><a class="brand" href="./"><span class="brand-mark">R</span><span>rolllog</span></a><span>KEEP CURIOUS. KEEP SHOWING UP.</span><span>POSITION REFERENCES: WIKIMEDIA COMMONS</span></footer>
+</main>
+<script>const POSITION_MAP = {{ position_map|tojson }};</script><script src="static/app.js" defer></script>
+</body></html>
